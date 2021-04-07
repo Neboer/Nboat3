@@ -1,0 +1,8 @@
+GET http://localhost:18000/api/article?page=1
+Accept: application/json
+
+###
+// get blog list
+
+GET http://localhost:18000/api/blog/606a586b31fb4462f5438decd
+Accept: application/json
