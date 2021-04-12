@@ -1,6 +1,9 @@
 export default {
   state: () => {
-    return { admin: false }
+    return {
+      admin: false,
+      blog_content: {}
+    }
   },
   mutations: {
     upgrade (state) {
@@ -8,6 +11,9 @@ export default {
     },
     downgrade (state) {
       state.admin = false
+    },
+    set_blog (state, blog_content) {
+      state.blog_content = blog_content
     }
   },
   actions: {

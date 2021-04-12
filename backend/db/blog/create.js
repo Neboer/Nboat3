@@ -1,4 +1,3 @@
-import assert from 'assert'
 import { collections } from '../connection'
 
 /**
@@ -12,7 +11,7 @@ import { collections } from '../connection'
  * @return Promise, promise中你收到的第一个参数是新创建博客的hex id。
  */
 
-export function create_simple_blog (small_in) {
+export async function create_simple_blog (small_in) {
   const small_db = {
     ...small_in, ...{
       create_time: new Date(),
@@ -22,10 +21,8 @@ export function create_simple_blog (small_in) {
       comment: []
     }
   }
-  return collections.articles.insertOne(small_db).then(result => {
-    assert.strictEqual(result.insertedCount, 1)
-    return result.insertedId.toHexString()
-  })
+  const result = await collections.articles.insertOne(small_db)
+  return result.insertedId.toHexString()
 }
 
 /**
@@ -37,7 +34,7 @@ export function create_simple_blog (small_in) {
     visible: boolean,
     tags: Array}} big_in 用户输入的新的大博客的原型
  */
-export function create_big_blog (big_in) {
+export async function create_big_blog (big_in) {
   const big_db = {
     ...big_in, ...{
       create_time: new Date(),
@@ -55,8 +52,6 @@ export function create_big_blog (big_in) {
     last_modified_time: new Date()
   }]
   delete big_db.HTML
-  return collections.articles.insertOne(big_db).then(result => {
-    assert.strictEqual(result.insertedCount, 1)
-    return result.insertedId.toHexString()
-  })
+  const result = await collections.articles.insertOne(big_db)
+  return result.insertedId.toHexString()
 }

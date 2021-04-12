@@ -3,13 +3,13 @@
     <div class="intro-area">
       <h2>{{ title }}</h2>
       <article>{{ description }}</article>
-      <nuxt-link class="stretched-link" :to="{name: 'blog-blog_id', params:{blog_id}}">
+      <nuxt-link class="stretched-link" :to="blog_link">
         <font-awesome-icon :icon="['fas', 'external-link-square-alt']"/>
         继续阅读
       </nuxt-link>
     </div>
     <div class="img-area">
-      <img :src="big_cover" alt="good">
+      <img v-if="small_cover" :src="small_cover" alt="good">
     </div>
     <div class="date-view-talk">
       <small>创建:{{ formatDate(create_time) }}</small>
@@ -30,10 +30,22 @@ export default {
     description: String,
     create_time: String,
     last_modified_time: String,
-    big_cover: String,
+    small_cover: String,
 
     views: Number,
     visible: Boolean
+  },
+  computed: {
+    blog_link () {
+      if (this.blog_id) {
+        return {
+          name: 'blog-blog_id',
+          params: { blog_id: this.blog_id }
+        }
+      } else {
+        return '#'
+      }
+    }
   },
   methods: {
     formatDate

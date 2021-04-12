@@ -2,15 +2,16 @@
   <div>
     <template v-for="(blog_item, index) in article_list">
       <blogitem-big
-        v-if="blog_item.type" :key="index" :blog_id="blog_item._id" :title="blog_item.title" :description="blog_item.description"
+        v-if="blog_item.blog_type" :key="index" :blog_id="blog_item._id" :title="blog_item.title"
+        :description="blog_item.description"
         :create_time="blog_item.create_time" :last_modified_time="blog_item.last_modified_time"
-        :big_cover="blog_item.big_cover" :views="blog_item.views" :articles_count="blog_item.article.length"
-        :visible="blog_item.visible"
+        :small_cover="blog_item.small_cover" :views="blog_item.views" :article_count="blog_item.article.length"
+        :visible="blog_item.visible" :first_index="blog_item.article[0].index"
       />
       <blogitem-small
         v-else :key="index" :blog_id="blog_item._id" :title="blog_item.title" :description="blog_item.description"
         :create_time="blog_item.create_time" :last_modified_time="blog_item.last_modified_time"
-        :big_cover="blog_item.big_cover" :views="blog_item.views"
+        :small_cover="blog_item.small_cover" :views="blog_item.views"
         :visible="blog_item.visible"
       />
     </template>
@@ -25,7 +26,7 @@ export default {
     }
   },
   async fetch () {
-    this.article_list = await this.$axios.$get('/article')
+    this.article_list = await this.$axios.$get('/article?page=1')
   }
 }
 </script>

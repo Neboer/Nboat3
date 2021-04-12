@@ -4,5 +4,43 @@ Accept: application/json
 ###
 // get blog list
 
-GET http://localhost:18000/api/blog/606a586b31fb4462f5438decd
+GET http://localhost:18000/api/blog/606a5a3031fb4462f5438def
 Accept: application/json
+
+###
+PUT http://localhost:18000/api/blog/606a5a3031fb4462f5438def
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "博客标题",
+  "description": "渐渐的说明",
+  "small_cover": "https://dummyimage.com/200x200/000/fff",
+  "big_cover": "https://dummyimage.com/1000x400/000/fff",
+  "visible": true,
+  "blog_type": 0,
+  "tags": [
+    "一个",
+    "两个"
+  ]
+}
+
+###
+PUT http://localhost:18000/api/blog/606a5a3031fb4462f5438def
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "# 快乐的假期",
+  "HTML": "<h1>快乐的假期</h1>"
+}
+
+###
+PUT http://localhost:18000/api/blog/606a586b31fb4462f5438dec?index=2
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "你想要什么样的？",
+  "HTML": "<h1>不对不对！</h1>"
+}

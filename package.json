@@ -13,14 +13,17 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@nuxtjs/axios": "^5.13.1",
+    "@ts-stack/markdown": "^1.4.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.1",
     "express": "^4.17.1",
+    "file-saver": "^2.0.5",
     "mongodb": "^3.6.5",
-    "nuxt": "^2.15.3"
+    "nuxt": "^2.15.3",
+    "nuxt-clipboard": "^0.0.4"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",

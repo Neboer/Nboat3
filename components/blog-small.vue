@@ -1,7 +1,5 @@
 <template>
   <div>
-    <img :src="content.big_cover" alt="dummy" class="d-block m-auto mw-100">
-
     <article class="markdown-body entry-content container-lg" itemprop="text">
       <h1 id="neboersboat">
         {{ content.title }}

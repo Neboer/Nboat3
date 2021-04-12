@@ -82,6 +82,13 @@ export default {
           icon: ['fas', 'book-open']
         })
       }
+      if (this.$nuxt.context.route.name === 'blog-blog_id-metaEditor') {
+        ori_menu.push({
+          name: '编辑文章',
+          href: this.$nuxt.context.route,
+          icon: ['fas', 'edit']
+        })
+      }
       return ori_menu.concat(this.ext_menu)
     }
   }
