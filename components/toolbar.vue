@@ -3,7 +3,7 @@
   <div>
     <b-button-group class="ml-3">
       <b-button v-for="(tool, index) in tools" :key="index" :variant="tool.variant" :title="tool.tooltip"
-                class="toolbar-toolbtn" :to="tool.href"
+                :to="tool.href" @click="tool.test"
       >
         <font-awesome-icon :icon="tool.icon"/>
       </b-button>
@@ -18,14 +18,9 @@ export default {
     article_index: Number,
     blog_type: Number
   },
-  // data () {
-  //   return {
-  //     tools:
-  //   }
-  // },
   computed: {
     tools () {
-      return [{
+      let result = [{
         variant: 'primary',
         icon: ['fas', 'info'],
         tooltip: '修改博客meta',
@@ -37,20 +32,45 @@ export default {
         variant: 'primary',
         icon: ['fas', 'align-justify'],
         tooltip: '修改这篇文章',
-        href: this.article_index ? {
-            name: 'blog-blog_id-articleEditor',
-            params: { blog_id: this.blog_id }
-          } : {
+        href: this.blog_type ?
+          {
             name: 'blog-blog_id-articleEditor',
             params: { blog_id: this.blog_id },
-            query: { index: this.index }
+            query: { index: this.article_index }
+          } : {
+            name: 'blog-blog_id-articleEditor',
+            params: { blog_id: this.blog_id }
           }
       }, {
         variant: 'danger',
         icon: ['fas', 'trash'],
-        tooltip: '删除整个文章',
+        tooltip: '删除整个博客',
         href: '#'
       }]
+      if (this.blog_type) { // 如果是大博文的话…
+        result.splice(2, 0, {
+          variant: 'primary',
+          icon: ['fas', 'plus'],
+          tooltip: '添加一篇文章',
+          href: {
+            name: 'blog-blog_id-articleCreator', // 在大博文中添加小文章的按钮
+            params: { blog_id: this.blog_id }
+          }
+        }, {
+          variant: 'danger',
+          icon: ['fas', 'minus'],
+          tooltip: '删除一篇文章',
+          click () {
+            console.log(this.blog_id, this.article_index)
+          }
+        })
+      }
+      return result
+    }
+  },
+  methods: {
+    test () {
+      console.log('test void')
     }
   }
 }

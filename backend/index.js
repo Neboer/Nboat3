@@ -1,6 +1,6 @@
 import express from 'express'
 import { json } from 'body-parser'
-import { create_simple_blog, create_big_blog } from './db/blog/create'
+import { create_simple_blog, create_big_blog, add_article_to_big_blog_by_id } from './db/blog/create'
 import { init } from './db/connection'
 import {
   update_blog_by_id,
@@ -9,6 +9,9 @@ import {
 } from './db/blog/update'
 import { get_blog_list } from './db/blog/list'
 import { get_blog_by_id } from './db/blog/get'
+import { remove_blog, remove_article_from_big_blog } from './db/blog/delete'
+import { celebrate } from 'celebrate'
+import { schema_article_index_loose, schema_blog_id } from './schema'
 
 const app = express()
 
@@ -59,6 +62,31 @@ app.put('/blog/:blog_id', async (req, res, next) => {
     next(e)
   }
 })
+
+app.post('/blog/:blog_id', async (req, res, next) => {
+  try {
+    await add_article_to_big_blog_by_id(req.params.blog_id, req.body)
+    res.send({})
+  } catch (e) {
+    next(e)
+  }
+})
+
+app.delete('/blog/:blog_id', celebrate({ ...schema_blog_id, ...schema_article_index_loose }),
+  async function (req, res, next) {
+    let result
+    try {
+      if (Number.isInteger(req.query.index)) {
+        // 请求带index说明是删除大博文中的小文章，不带index说明是删除整个文章。
+        result = await remove_article_from_big_blog(req.params.blog_id, req.query.index)
+      } else {
+        result = await remove_blog(req.params.blog_id)
+      }
+      res.send(result)
+    } catch (e) {
+      next(e)
+    }
+  })
 
 app.use(function (err, req, res, next) {
   console.error(err.message)

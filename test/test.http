@@ -44,3 +44,18 @@ Content-Type: application/json
   "content": "你想要什么样的？",
   "HTML": "<h1>不对不对！</h1>"
 }
+
+###
+POST http://localhost:18000/api/blog/60745e302cf90e40c8a49f1f
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "你是不是喜欢伤害高的？？",
+  "HTML": "<h1>你是不是喜欢伤害高的？？！</h1>"
+}
+
+###
+DELETE http://localhost:18000/api/blog/60745bf90935842544416304?index=1
+Accept: application/json
+Content-Type: application/json

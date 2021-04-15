@@ -1,9 +1,8 @@
 <template>
   <div>
     <img v-if="content.big_cover" :src="content.big_cover" alt="dummy" class="d-block m-auto mw-100">
-    <toolbar :blog_id="blog_id"/>
-    <blog-big v-if="content.blog_type" :content="content"
-              :index="parseInt($route.query.index)"/>
+    <toolbar :blog_id="blog_id" :article_index="article_index" :blog_type="content.blog_type"/>
+    <blog-big v-if="content.blog_type" :content="content" :index="article_index"/>
     <blog-small v-else :content="content"/>
     <b-pagination-nav v-if="content.blog_type" :pages="page_obj" use-router/>
   </div>
@@ -44,6 +43,9 @@ export default {
           text: 'Page 1'
         }]
       }
+    },
+    article_index () {
+      return parseInt(this.$route.query.index)
     }
   },
   methods: {

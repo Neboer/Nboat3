@@ -1,11 +1,5 @@
 import { ObjectID } from 'mongodb'
-import { collections } from '../connection'
-
-const by_id = (blog_id) => {
-  return {
-    _id: ObjectID.createFromHexString(blog_id)
-  }
-}
+import { collections, by_id } from '../connection'
 
 export async function update_blog_by_id (blog_id, meta_obj) {
   await collections.articles.findOneAndUpdate(by_id(blog_id), { $set: meta_obj })
