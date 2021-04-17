@@ -13,7 +13,7 @@
       <blockquote style="padding: 15px;background: #eee;border-radius: 5px;">
         {{ content.description }}
       </blockquote>
-      <div v-html="HTML_content" />
+      <div v-html="HTML_content"/>
     </article>
   </div>
 </template>
@@ -26,8 +26,13 @@ export default {
   },
   computed: {
     HTML_content () {
-      if (this.content) {
-        return this.content.article.find(val => val.index === this.index).HTML
+      if (this.content && this.content.article) {
+        const current_article = this.content.article.find(val => val.index === this.index)
+        if (current_article) {
+          return current_article.HTML
+        } else {
+          return '<div>内容不存在</div>'
+        }
       }
     }
   }

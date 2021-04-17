@@ -1,5 +1,7 @@
 import express from 'express'
 import { json } from 'body-parser'
+import { celebrate } from 'celebrate'
+import cookieParser from 'cookie-parser'
 import { create_simple_blog, create_big_blog, add_article_to_big_blog_by_id } from './db/blog/create'
 import { init } from './db/connection'
 import {
@@ -10,29 +12,30 @@ import {
 import { get_blog_list } from './db/blog/list'
 import { get_blog_by_id } from './db/blog/get'
 import { remove_blog, remove_article_from_big_blog } from './db/blog/delete'
-import { celebrate } from 'celebrate'
-import { schema_article_index_loose, schema_blog_id } from './schema'
+import { schema_article_index_loose, schema_blog_id, schema_only_admin, schema_single_article } from './schema'
+import { get_match_and_modify } from './response'
 
 const app = express()
 
 init()
 
 app.use(json())
+app.use(cookieParser())
 
 app.get('/article', async (req, res) => {
   const page = parseInt(req.query.page)
   res.send((await get_blog_list((page - 1) * 5, 5, true)))
 })
 
-app.get('/blog/:id', async (req, res, next) => {
+app.get('/blog/:blog_id', celebrate({ ...schema_blog_id }), async (req, res, next) => {
   try {
-    res.send(await get_blog_by_id(req.params.id))
+    res.send(await get_blog_by_id(req.params.blog_id))
   } catch (e) {
     next(e)
   }
 })
 
-app.post('/newBlog', async (req, res) => {
+app.post('/newBlog', celebrate({ ...schema_only_admin }), async (req, res) => {
   let created_blog_id = ''
   if (req.body.blog_type) { // 大博文
     created_blog_id = await create_big_blog(req.body)
@@ -42,7 +45,7 @@ app.post('/newBlog', async (req, res) => {
   res.send({ blog_id: created_blog_id })
 })
 
-app.put('/blog/:blog_id', async (req, res, next) => {
+app.put('/blog/:blog_id', celebrate({ ...schema_only_admin }), async (req, res, next) => {
   // 可以修改大小博文的meta，也可以用来修改大小博文的文章内容。
   try {
     if (typeof req.body.blog_type !== 'undefined') {
@@ -63,14 +66,16 @@ app.put('/blog/:blog_id', async (req, res, next) => {
   }
 })
 
-app.post('/blog/:blog_id', async (req, res, next) => {
-  try {
-    await add_article_to_big_blog_by_id(req.params.blog_id, req.body)
-    res.send({})
-  } catch (e) {
-    next(e)
+app.post('/blog/:blog_id', celebrate({ ...schema_only_admin, ...schema_blog_id, ...schema_single_article }),
+  async (req, res, next) => {
+    try {
+      await add_article_to_big_blog_by_id(req.params.blog_id, req.body)
+      res.send({})
+    } catch (e) {
+      next(e)
+    }
   }
-})
+)
 
 app.delete('/blog/:blog_id', celebrate({ ...schema_blog_id, ...schema_article_index_loose }),
   async function (req, res, next) {
@@ -82,14 +87,14 @@ app.delete('/blog/:blog_id', celebrate({ ...schema_blog_id, ...schema_article_in
       } else {
         result = await remove_blog(req.params.blog_id)
       }
-      res.send(result)
+      res.send(get_match_and_modify(result))
     } catch (e) {
       next(e)
     }
   })
 
 app.use(function (err, req, res, next) {
-  console.error(err.message)
+  console.error(err.details)
   res.status(500).send('Something broke!')
 })
 

@@ -2,7 +2,9 @@ import { Joi, Segments } from 'celebrate'
 import { ObjectID } from 'mongodb'
 
 export const schema_only_admin = {
-  [Segments.COOKIES]: Joi.equal(process.env.secret).required()
+  [Segments.COOKIES]: Joi.object({
+    secret: Joi.equal(process.env.secret).required()
+  })
 }
 
 export const schema_blog_id = {
