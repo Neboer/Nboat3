@@ -51,3 +51,7 @@ export async function update_article_content_by_id (blog_hex_id, new_content, in
     })
   }
 }
+
+export async function increase_blog_total_visitor (blog_id) {
+  return await collections.articles.findOneAndUpdate(by_id(blog_id), { $inc: { views: 1 } })
+}

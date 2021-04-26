@@ -59,3 +59,7 @@ Content-Type: application/json
 DELETE http://localhost:18000/api/blog/60745bf90935842544416304?index=1
 Accept: application/json
 Content-Type: application/json
+
+###
+GET http://localhost:18000/api/total_page
+Accept: application/json

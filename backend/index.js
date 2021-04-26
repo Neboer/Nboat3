@@ -7,9 +7,9 @@ import { init } from './db/connection'
 import {
   update_blog_by_id,
   upgrade_small_blog_to_big_blog_by_hex_id,
-  update_article_content_by_id
+  update_article_content_by_id, increase_blog_total_visitor
 } from './db/blog/update'
-import { get_blog_list } from './db/blog/list'
+import { get_blog_list, get_document_count } from './db/blog/list'
 import { get_blog_by_id } from './db/blog/get'
 import { remove_blog, remove_article_from_big_blog } from './db/blog/delete'
 import { schema_article_index_loose, schema_blog_id, schema_only_admin, schema_single_article } from './schema'
@@ -21,14 +21,24 @@ init()
 
 app.use(json())
 app.use(cookieParser())
+app.use((req, res, next) => {
+  req.admin = req.cookies.secret === process.env.secret
+  next()
+})
+
+app.get('/total_page', async (req, res) => {
+  const count = await get_document_count(req.admin)
+  res.send({ total_page: Math.ceil(count / 5) })
+})
 
 app.get('/article', async (req, res) => {
   const page = parseInt(req.query.page)
-  res.send((await get_blog_list((page - 1) * 5, 5, true)))
+  res.send((await get_blog_list((page - 1) * 5, 5, req.admin)))
 })
 
 app.get('/blog/:blog_id', celebrate({ ...schema_blog_id }), async (req, res, next) => {
   try {
+    await increase_blog_total_visitor(req.params.blog_id)
     res.send(await get_blog_by_id(req.params.blog_id))
   } catch (e) {
     next(e)
@@ -45,7 +55,7 @@ app.post('/newBlog', celebrate({ ...schema_only_admin }), async (req, res) => {
   res.send({ blog_id: created_blog_id })
 })
 
-app.put('/blog/:blog_id', celebrate({ ...schema_only_admin }), async (req, res, next) => {
+app.put('/blog/:blog_id', celebrate({ ...schema_only_admin, ...schema_blog_id }), async (req, res, next) => {
   // 可以修改大小博文的meta，也可以用来修改大小博文的文章内容。
   try {
     if (typeof req.body.blog_type !== 'undefined') {
@@ -77,7 +87,7 @@ app.post('/blog/:blog_id', celebrate({ ...schema_only_admin, ...schema_blog_id, 
   }
 )
 
-app.delete('/blog/:blog_id', celebrate({ ...schema_blog_id, ...schema_article_index_loose }),
+app.delete('/blog/:blog_id', celebrate({ ...schema_only_admin, ...schema_blog_id, ...schema_article_index_loose }),
   async function (req, res, next) {
     let result
     try {

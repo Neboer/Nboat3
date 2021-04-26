@@ -15,18 +15,32 @@
         :visible="blog_item.visible"
       />
     </template>
+    <b-pagination-nav :link-gen="linkGen" :number-of-pages="total_page" use-router @input="$fetch"/>
   </div>
 </template>
 
 <script>
+import list_checker from '~/libs/list_checker'
+
 export default {
   data () {
     return {
+      total_page: 1,
       article_list: []
     }
   },
+  fetchDelay: 0,
   async fetch () {
-    this.article_list = await this.$axios.$get('/article?page=1')
+    this.total_page = await list_checker(this.$nuxt.context)
+    if (Number.isInteger(this.total_page)) {
+      this.article_list = await this.$axios.$get(`/article?page=${this.$nuxt.context.query.page}`)
+    }
+  },
+  computed: {},
+  methods: {
+    linkGen (pageNum) {
+      return `/list?page=${pageNum}`
+    }
   }
 }
 </script>

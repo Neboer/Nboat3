@@ -1,5 +1,6 @@
 <template>
   <div class="small-blog-item">
+    <img v-if="!visible" src="../static/Ei-paperclip.svg" class="paperclip" alt="paperclip"/>
     <div class="intro-area">
       <h2>{{ title }}</h2>
       <article>{{ description }}</article>
@@ -82,6 +83,13 @@ export default {
 .date-view-talk {
   position: absolute;
   bottom: 0;
+}
+
+.paperclip {
+  width: 66px;
+  position: absolute;
+  right: -35px;
+  top: -32px;
 }
 
 @media (max-width: 512px) {

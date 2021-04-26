@@ -9,7 +9,7 @@
         <font-awesome-icon :icon="['fas', 'arrow-down']"/>
         下载md源代码
       </b-button>
-      <input v-show="false" ref="fileInput" accept=".md" type="file" @change="read_file_content_to_page"/>
+      <input v-show="false" ref="fileInput" accept=".md" type="file" @change="read_file_content_to_page">
       <b-button variant="info" class="ml-sm-2 mt-1 mt-sm-0" @click="copy_all_content_to_clipboard">
         <font-awesome-icon :icon="['fas', 'copy']"/>
         复制到剪贴板

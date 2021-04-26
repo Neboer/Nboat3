@@ -19,8 +19,9 @@
 </template>
 
 <script>
+import blog_checker from '~/libs/blog_checker'
+
 export default {
-  middleware: 'blog_checker',
   data () {
     return {
       meta: {
@@ -37,18 +38,18 @@ export default {
         views: 10,
         article_count: 1
       },
-      lock_blog_type: Boolean
+      lock_blog_type: false
     }
   },
-  fetch () {
-    const blog_content = this.$nuxt.context.store.state.blog_content
+  async fetch () {
+    const blog_content = await blog_checker(this.$nuxt.context)
     Object.keys(this.meta).forEach(key => {
       this.meta[key] = blog_content[key]
     })
     if (this.meta.blog_type) {
       this.meta.article_count = blog_content.article.length
     }
-    this.lock_blog_type = Boolean(this.meta.blog_type)
+    this.lock_blog_type = !!(this.meta.blog_type)
   },
   methods: {
     async change_blog_meta () {

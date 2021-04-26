@@ -2,7 +2,8 @@ export default {
   state: () => {
     return {
       admin: false,
-      blog_content: {}
+      blog_content: {},
+      total_page: 1
     }
   },
   mutations: {
@@ -14,6 +15,9 @@ export default {
     },
     set_blog (state, blog_content) {
       state.blog_content = blog_content
+    },
+    set_total_page (state, total_page) {
+      state.total_page = total_page
     }
   },
   actions: {

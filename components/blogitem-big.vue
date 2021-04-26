@@ -1,5 +1,6 @@
 <template>
   <div class="big-blog-item">
+    <img v-if="!visible" src="../static/Ei-paperclip.svg" class="paperclip" alt="paperclip">
     <div class="big-img-area">
       <img v-if="small_cover" :src="small_cover" alt="good" class="big-image">
     </div>
@@ -88,6 +89,13 @@ export default {
 .big-intro-area {
   margin-bottom: 1em;
   min-height: 150px;
+}
+
+.paperclip {
+  width: 66px;
+  position: absolute;
+  right: -35px;
+  top: -32px;
 }
 
 @media (max-width: 512px) {

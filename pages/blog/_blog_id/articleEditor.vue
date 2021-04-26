@@ -1,5 +1,5 @@
 <template>
-  <editor-framework @submit="modify_current_content">
+  <editor-framework v-if="text !== null" @submit="modify_current_content">
     <template #editor>
       <editor-text :text.sync="text"/>
     </template>
@@ -11,16 +11,16 @@
 
 <script>
 import { Marked } from '@ts-stack/markdown'
+import blog_checker from '~/libs/blog_checker'
 
 export default {
-  middleware: 'blog_checker',
   data () {
     return {
-      text: '# '
+      text: null
     }
   },
-  fetch () {
-    const blog_content = this.$nuxt.context.store.state.blog_content
+  async fetch () {
+    const blog_content = await blog_checker(this.$nuxt.context)
     if (this.$nuxt.context.query.index) { // 大博文！
       this.text = blog_content.article.find(article => article.index === parseInt(this.$nuxt.context.query.index)).content
     } else {
