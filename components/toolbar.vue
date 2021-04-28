@@ -73,10 +73,7 @@ export default {
           tooltip: '删除一篇文章',
           async click () {
             const res = await vm.$axios.$delete(`/blog/${vm.blog_id}?index=${vm.article_index}`)
-            await vm.$router.push({
-              name: 'blog-blog_id',
-              params: { blog_id: vm.blog_id }
-            })
+            vm.$nuxt.context.redirect(`/blog/${vm.blog_id}`)
           }
         })
       }

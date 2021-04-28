@@ -82,7 +82,7 @@ export default {
           icon: ['fas', 'book-open']
         })
       }
-      if (this.$nuxt.context.route.name === 'blog-blog_id-metaEditor') {
+      if (['blog-blog_id-metaEditor', 'blog-blog_id-articleCreator', 'blog-blog_id-articleEditor'].includes(this.$nuxt.context.route.name)) {
         ori_menu.push({
           name: '编辑文章',
           href: this.$nuxt.context.route,

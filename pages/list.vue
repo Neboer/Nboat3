@@ -15,7 +15,7 @@
         :visible="blog_item.visible"
       />
     </template>
-    <b-pagination-nav :link-gen="linkGen" :number-of-pages="total_page" use-router @input="$fetch"/>
+    <b-pagination-nav :link-gen="linkGen" :number-of-pages="total_page" use-router/>
   </div>
 </template>
 
@@ -23,20 +23,23 @@
 import list_checker from '~/libs/list_checker'
 
 export default {
-  data () {
-    return {
-      total_page: 1,
-      article_list: []
+  async asyncData (ctx) {
+    const total_page = await list_checker(ctx)
+    let article_list = []
+    if (Number.isInteger(total_page)) {
+      article_list = await ctx.$axios.$get(`/article?page=${ctx.query.page}`)
     }
+    return {
+      total_page,
+      article_list
+    }
+  },
+  data () {
+    return {}
   },
   fetchDelay: 0,
-  async fetch () {
-    this.total_page = await list_checker(this.$nuxt.context)
-    if (Number.isInteger(this.total_page)) {
-      this.article_list = await this.$axios.$get(`/article?page=${this.$nuxt.context.query.page}`)
-    }
-  },
   computed: {},
+  watchQuery: ['page'],
   methods: {
     linkGen (pageNum) {
       return `/list?page=${pageNum}`

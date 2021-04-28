@@ -38,8 +38,17 @@ app.get('/article', async (req, res) => {
 
 app.get('/blog/:blog_id', celebrate({ ...schema_blog_id }), async (req, res, next) => {
   try {
-    await increase_blog_total_visitor(req.params.blog_id)
-    res.send(await get_blog_by_id(req.params.blog_id))
+    const blog_content = await get_blog_by_id(req.params.blog_id)
+    if (blog_content) {
+      if (req.admin || blog_content.visible) {
+        await increase_blog_total_visitor(req.params.blog_id)
+        res.send(blog_content)
+      } else {
+        res.status(404).end()
+      }
+    } else {
+      res.status(404).end()
+    }
   } catch (e) {
     next(e)
   }

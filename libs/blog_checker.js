@@ -17,7 +17,14 @@ export default async function (ctx) {
   } else if (!valid_id) {
     err_404()
   } else {
-    const blog_content = await ctx.$axios.$get('/blog/' + blog_id)
+    let blog_content
+    try {
+      blog_content = await ctx.$axios.$get('/blog/' + blog_id)
+    } catch (e) {
+      if (e) { // 博客加载出错，可能是请求了非法的目标
+        err_404()
+      }
+    }
     if (!blog_content) {
       err_404()
     } else if ((!blog_content.visible) && (!admin)) {
@@ -34,5 +41,6 @@ export default async function (ctx) {
       }
       return blog_content
     }
+
   }
 }
