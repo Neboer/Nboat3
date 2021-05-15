@@ -19,7 +19,8 @@ export default {
   props: {
     blog_id: String,
     article_index: Number,
-    blog_type: Number
+    blog_type: Number,
+    blog_count: Number
   },
   computed: {
     tools () {
@@ -58,8 +59,9 @@ export default {
           })
         }
       }]
+
       if (this.blog_type) { // 如果是大博文的话…
-        result.splice(2, 0, {
+        const big_blog_editor = [{
           variant: 'primary',
           icon: ['fas', 'plus'],
           tooltip: '添加一篇文章',
@@ -67,15 +69,23 @@ export default {
             name: 'blog-blog_id-articleCreator', // 在大博文中添加小文章的按钮
             params: { blog_id: this.blog_id }
           }
-        }, {
-          variant: 'danger',
-          icon: ['fas', 'minus'],
-          tooltip: '删除一篇文章',
-          async click () {
-            const res = await vm.$axios.$delete(`/blog/${vm.blog_id}?index=${vm.article_index}`)
-            vm.$nuxt.context.redirect(`/blog/${vm.blog_id}`)
-          }
-        })
+        }]
+        if (this.blog_count > 1) {
+          big_blog_editor.push({
+            variant: 'danger',
+            icon: ['fas', 'minus'],
+            tooltip: '删除一篇文章',
+            async click () {
+              const res = await vm.$axios.$delete(`/blog/${vm.blog_id}?index=${vm.article_index}`)
+              await vm.$nuxt.context.redirect({
+                name: 'blog-blog_id',
+                params: { blog_id: vm.blog_id }
+              })
+              vm.$forceUpdate()
+            }
+          })
+        }
+        result.splice(2, 0, ...big_blog_editor)
       }
       return result
     }

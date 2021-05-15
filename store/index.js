@@ -1,9 +1,7 @@
 export default {
   state: () => {
     return {
-      admin: false,
-      blog_content: {},
-      total_page: 1
+      admin: false
     }
   },
   mutations: {
@@ -12,20 +10,14 @@ export default {
     },
     downgrade (state) {
       state.admin = false
-    },
-    set_blog (state, blog_content) {
-      state.blog_content = blog_content
-    },
-    set_total_page (state, total_page) {
-      state.total_page = total_page
     }
   },
   actions: {
     nuxtServerInit ({ commit }, ctx) {
-      if (ctx.$cookies.get('secret') === process.env.secret) {
+      if (ctx.$cookies.get('secret') === CONFIG.secret) {
         commit('upgrade')
-      } else if (ctx.req.url === '/' + process.env.secret) {
-        ctx.$cookies.set('secret', process.env.secret)
+      } else if (ctx.req.url === '/' + CONFIG.secret) {
+        ctx.$cookies.set('secret', CONFIG.secret)
         ctx.redirect(302, '/')
       }
     }

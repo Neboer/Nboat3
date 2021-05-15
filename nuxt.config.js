@@ -1,3 +1,6 @@
+import config from 'config'
+import ConfigWebpackPlugin from 'config-webpack'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -39,7 +42,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -56,7 +60,10 @@ export default {
     '/api': '~/backend'
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: config.get('addr.ssr_prefix'),
+    browserBaseURL: `${config.get('addr.server.prefix')}${config.get('addr.server.addr')}:${config.get('addr.server.port')}/api`
+  },
   loading: false,
   fontawesome: {
     icons: {
@@ -66,9 +73,15 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    plugins: [new ConfigWebpackPlugin()]
+  },
 
+  moment: {
+    defaultLocale: 'zh-cn',
+    locales: ['zh-cn']
+  },
   server: {
-    port: 18000 // default: 3000
+    port: config.get('addr.server.port')
   }
 }

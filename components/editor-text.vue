@@ -19,7 +19,7 @@
         从剪贴板粘贴
       </b-button>
     </div>
-    <b-form-textarea v-model="text_content" @input="onInput"/>
+    <b-form-textarea v-model="text_content" rows="10" @input="onInput"/>
   </div>
 </template>
 

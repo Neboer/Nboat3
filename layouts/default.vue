@@ -89,6 +89,13 @@ export default {
           icon: ['fas', 'edit']
         })
       }
+      if (this.$nuxt.context.route.name === 'edit_homepage') {
+        ori_menu.push({
+          name: '编辑主页',
+          href: this.$nuxt.context.route,
+          icon: ['fas', 'pen-nib']
+        })
+      }
       return ori_menu.concat(this.ext_menu)
     }
   }

@@ -63,3 +63,25 @@ Content-Type: application/json
 ###
 GET http://localhost:18000/api/total_page
 Accept: application/json
+
+###
+GET http://localhost:18000/api/homepage?lang=zh
+Accept: application/json
+
+###
+POST http://localhost:18000/api/bbs
+Accept: application/json
+Content-Type: application/json
+
+{"content": "母亲节快乐", "issuer": "Neboer"}
+###
+GET http://localhost:18001/api/bbs?page=2
+Accept: application/json
+
+###
+GET http://localhost:18001/api/bbs/pages
+Accept: application/json
+
+###
+GET http://localhost:18001/wall?page=1
+Accept: text/html
