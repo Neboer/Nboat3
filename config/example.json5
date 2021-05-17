@@ -1,16 +1,15 @@
 {
   addr: {
-    server: {// 服务器信息，也是浏览器访问终点。
-      port: 18000,
-      addr: 'localhost',
-      prefix: 'http://'
-    },
-    ssr_prefix: 'http://localhost:18000'// 服务端渲染的请求目标地址
+    ssr_prefix: 'http://localhost:18001/api',// 服务端渲染的请求目标地址，需要带上api
+    name: 'https://www.neboer.site/',// 服务器的站名，不带/api，后端会加上。这个地址浏览器和搜索引擎都会用到。
+    local_listen_host: 'localhost', // 本地监听的地址和端口
+    local_listen_port: 18001
   },
   // admin secret
   secret: 'abcdefg',
   // 只允许管理员发送新的留言板消息。
   admin_message_only: true,
+  admin_name: 'Neboer',
   max_length: {
     comment: 400,
     username: 10
@@ -19,5 +18,6 @@
     // 每页显示的对象数量
     blog_list: 5,
     bbs: 5
-  }
+  },
+  show_error: false // 是否在404页面展示错误原因
 }

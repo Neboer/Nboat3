@@ -43,7 +43,6 @@ export default {
       total_page
     }
   },
-  watchQuery: ['page'],
   data () {
     const admin_name = CONFIG.admin_name
     const admin_only = CONFIG.admin_message_only
@@ -54,6 +53,16 @@ export default {
       issuer: admin_only ? admin_name : ''
     }
   },
+  head: {
+    title: 'NBoat3-留言墙',
+    meta: [
+      {
+        name: '给Neboer留言',
+        content: '所有给Neboer的留言。'
+      }
+    ]
+  },
+  watchQuery: ['page'],
   methods: {
     linkGen (pageNum) {
       return `/wall?page=${pageNum}`

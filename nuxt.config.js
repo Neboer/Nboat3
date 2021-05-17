@@ -1,5 +1,7 @@
 import config from 'config'
 import ConfigWebpackPlugin from 'config-webpack'
+import axios from 'axios'
+import url_join from 'url-join'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -53,16 +55,22 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
-    'nuxt-clipboard'
+    'nuxt-clipboard',
+    '@nuxtjs/sitemap'
   ],
-
+  sitemap: {
+    hostname: config.get('addr.name'),
+    exclude: ['/create', '/edit_homepage', '/list', '/wall'],
+    routes: async () => {
+      return (await axios.get(url_join(config.get('addr.ssr_prefix'), '_seo'))).data
+    }
+  },
   serverMiddleware: {
     '/api': '~/backend'
   },
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: config.get('addr.ssr_prefix'),
-    browserBaseURL: `${config.get('addr.server.prefix')}${config.get('addr.server.addr')}:${config.get('addr.server.port')}/api`
+    browserBaseURL: `${config.get('addr.name')}/api`
   },
   loading: false,
   fontawesome: {
@@ -71,17 +79,16 @@ export default {
       brands: true
     }
   },
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     plugins: [new ConfigWebpackPlugin()]
   },
-
   moment: {
     defaultLocale: 'zh-cn',
     locales: ['zh-cn']
   },
   server: {
-    port: config.get('addr.server.port')
+    port: config.get('addr.local_listen_port'),
+    host: config.get('addr.local_listen_host')
   }
 }

@@ -38,7 +38,15 @@ export default {
     return {}
   },
   fetchDelay: 0,
-  computed: {},
+  head: {
+    title: 'NBoat3-文章列表',
+    meta: [
+      {
+        name: '博文列表',
+        content: 'Neboer的所有文章'
+      }
+    ]
+  },
   watchQuery: ['page'],
   methods: {
     linkGen (pageNum) {

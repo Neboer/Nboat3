@@ -20,9 +20,13 @@ import { get_match_and_modify } from '../response'
 
 export const blog_router = Router()
 
+export async function get_blog_page_count (include_visible) {
+  const count = await get_document_count(include_visible)
+  return Math.ceil(count / 5)
+}
+
 blog_router.get('/total_page', async (req, res) => {
-  const count = await get_document_count(req.admin)
-  res.send({ total_page: Math.ceil(count / 5) })
+  res.send({ total_page: await get_blog_page_count(req.admin) })
 })
 
 blog_router.get('/article', celebrate({ ...schema_page }), async (req, res) => {

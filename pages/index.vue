@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-html="HTML"/>
-    <nuxt-link :to="{name: 'edit_homepage'}" v-if="$nuxt.context.store.state.admin">
+    <nuxt-link v-if="$nuxt.context.store.state.admin" :to="{name: 'edit_homepage'}">
       <font-awesome-icon :icon="['fas','cog']"/>
     </nuxt-link>
   </div>
@@ -11,6 +11,15 @@
 export default {
   async asyncData (ctx) {
     return await ctx.$axios.$get('/homepage?lang=zh')
+  },
+  head: {
+    title: "Neboer's Boat",
+    meta: [
+      {
+        name: 'Neboer的个人站',
+        content: 'Neboer的主页，基本介绍'
+      }
+    ]
   }
 }
 </script>

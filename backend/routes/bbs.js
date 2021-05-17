@@ -6,7 +6,7 @@ import { commit_new_message, get_message_list, get_bbs_message_count } from '../
 
 export const bbs_router = Router()
 
-async function bbs_total_pages () {
+export async function bbs_total_pages () {
   const count = await get_bbs_message_count()
   return Math.ceil(count / config.get('page_items.bbs'))
 }

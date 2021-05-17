@@ -27,6 +27,18 @@ export default {
     return {}
   },
   fetchDelay: 0,
+  head () {
+    return {
+      title: this.content.title,
+      meta: [
+        {
+          hid: 'metaid',
+          name: this.content.title,
+          content: this.content.description
+        }
+      ]
+    }
+  },
   computed: {
     page_obj () {
       if (this.content) {
