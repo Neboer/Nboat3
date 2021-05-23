@@ -13,17 +13,18 @@
         {{ val.content }}
       </p>
     </b-media>
-    <div v-if="$nuxt.context.store.state.admin" class="my-3">
-      <b-row>
-        <b-col sm="3">名字（不超过10字符）</b-col>
-        <b-col sm="9">
-          <b-input v-model="issuer" :disabled="admin_only"/>
-        </b-col>
-      </b-row>
-      <editor-text :text.sync="text" class="mb-2"/>
-      <b-button variant="success" @click="add_new_message">提交</b-button>
-    </div>
-
+    <b-overlay :show="loading">
+      <div v-if="$nuxt.context.store.state.admin" class="my-3">
+        <b-row>
+          <b-col sm="3">名字（不超过10字符）</b-col>
+          <b-col sm="9">
+            <b-input v-model="issuer" :disabled="admin_only"/>
+          </b-col>
+        </b-row>
+        <editor-text :text.sync="text" class="mb-2" ref="editor"/>
+        <b-button variant="success" @click="add_new_message">提交</b-button>
+      </div>
+    </b-overlay>
     <b-pagination-nav :link-gen="linkGen" :number-of-pages="total_page" use-router/>
   </div>
 </template>
@@ -50,7 +51,8 @@ export default {
       admin_name,
       admin_only,
       text: '',
-      issuer: admin_only ? admin_name : ''
+      issuer: admin_only ? admin_name : '',
+      loading: false
     }
   },
   head: {
@@ -68,6 +70,7 @@ export default {
       return `/wall?page=${pageNum}`
     },
     async add_new_message () {
+      this.loading = true
       // 检查评论内容是否合法，这是一个不应该这么复杂的检查，但是还是检查了。
       if (this.text.length <= CONFIG.max_length.comment &&
         this.issuer.length <= CONFIG.max_length.username &&
@@ -82,6 +85,9 @@ export default {
       } else {
         this.$bvToast.toast('请求错误')
       }
+      this.$refs.editor.text_content = ''
+      this.text = ''
+      this.loading = false
     }
   }
 }

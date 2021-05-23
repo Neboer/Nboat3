@@ -10,10 +10,10 @@
 <script>
 export default {
   async asyncData (ctx) {
-    return await ctx.$axios.$get('/homepage?lang=zh')
+    return await ctx.$axios.$get(`/homepage?lang=${['zh', 'en', 'ja'].includes(ctx.query.lang) ? ctx.query.lang : 'zh'}`)
   },
   head: {
-    title: "Neboer's Boat",
+    title: 'Neboer\'s Boat',
     meta: [
       {
         name: 'Neboer的个人站',

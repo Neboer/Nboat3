@@ -17,7 +17,7 @@ export default {
         content: 'width=device-width, initial-scale=1'
       },
       {
-        hid: 'description',
+        hid: 'nboat3',
         name: 'description',
         content: ''
       }
