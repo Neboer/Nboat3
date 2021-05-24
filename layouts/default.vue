@@ -30,7 +30,11 @@
       </div>
     </header>
     <b-nav tabs fill>
-      <b-nav-item v-for="(item, index) in menu" :key="index" :to="item.href" :exact="item.exact" active-class="active">
+      <b-nav-item to="/" :active="is_homepage">
+        <font-awesome-icon :icon=" ['fas', 'home']" />
+        主页
+      </b-nav-item>
+      <b-nav-item v-for="(item, index) in menu" :key="index" :to="item.href" active-class="active">
         <font-awesome-icon :icon="item.icon"/>
         {{ item.name }}
       </b-nav-item>
@@ -59,11 +63,6 @@ export default {
   computed: {
     menu () {
       const ori_menu = [{
-        name: '主页',
-        href: { name: 'index' },
-        icon: ['fas', 'home'],
-        exact: true
-      }, {
         name: '文章列表',
         href: { name: 'list' },
         icon: ['fas', 'list']
@@ -97,6 +96,9 @@ export default {
         })
       }
       return ori_menu.concat(this.ext_menu)
+    },
+    is_homepage () {
+      return (this.$route.path === '/')
     }
   }
 }
@@ -141,7 +143,7 @@ p img {
 
 @media (max-width: 576px) {
   .biggest {
-    width: 98%;
+    width: 90%;
     margin: auto;
   }
 

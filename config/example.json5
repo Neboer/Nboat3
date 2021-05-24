@@ -3,7 +3,9 @@
     ssr_prefix: 'http://localhost:18001/api',// 服务端渲染的请求目标地址，需要带上api
     name: 'https://www.neboer.site/',// 服务器的站名，不带/api，后端会加上。这个地址浏览器和搜索引擎都会用到。
     local_listen_host: 'localhost', // 本地监听的地址和端口
-    local_listen_port: 18001
+    local_listen_port: 18001,
+    mongo: 'mongodb://localhost:27017'
+    // mongodb连接全名
   },
   // admin secret
   secret: 'abcdefg',

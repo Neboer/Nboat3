@@ -129,11 +129,6 @@ export default {
 }
 
 @media (max-width: 512px) {
-  .biggest {
-    width: 98%;
-    margin: auto;
-  }
-
   .icon-plate {
     position: absolute;
     right: 0;

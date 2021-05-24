@@ -1,7 +1,7 @@
 import { MongoClient, ObjectID } from 'mongodb'
+import config from 'config'
 // Connection URL
-const url = 'mongodb://localhost:27017'
-const client = new MongoClient(url)
+const client = new MongoClient(config.get('addr.mongo'), { useUnifiedTopology: false })
 export const collections = {}
 
 // Database Name
