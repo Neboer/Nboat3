@@ -87,6 +87,9 @@ export default {
     defaultLocale: 'zh-cn',
     locales: ['zh-cn']
   },
+  privateRuntimeConfig: {
+    secret: config.get('secret')
+  },
   server: {
     port: config.get('addr.local_listen_port'),
     host: config.get('addr.local_listen_host')

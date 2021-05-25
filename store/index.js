@@ -14,10 +14,10 @@ export default {
   },
   actions: {
     nuxtServerInit ({ commit }, ctx) {
-      if (ctx.$cookies.get('secret') === CONFIG.secret) {
+      if (ctx.$cookies.get('secret') === this.$config.secret) {
         commit('upgrade')
-      } else if (ctx.req.url === '/' + CONFIG.secret) {
-        ctx.$cookies.set('secret', CONFIG.secret)
+      } else if (ctx.req.url === '/' + this.$config.secret) {
+        ctx.$cookies.set('secret', this.$config.secret)
         ctx.redirect(302, '/')
       }
     }

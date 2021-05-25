@@ -41,8 +41,8 @@ export const schema_single_article = {
 
 export const schema_comment = {
   [Segments.BODY]: Joi.object({
-    content: Joi.string().max(config.get('max_length.comment'), 'utf8'),
-    issuer: Joi.string().max(config.get('max_length.username'), 'utf8')
+    content: Joi.string().max(config.get('max_length.comment')),
+    issuer: Joi.string().max(config.get('max_length.username'))
   })
 }
 

@@ -17,10 +17,10 @@
         提交
       </b-button>
     </div>
-    <div v-if="mode === 'edit'">
+    <div :class="{'d-none': mode !== 'edit'}">
       <slot name="editor"/>
     </div>
-    <div v-if="mode === 'preview'">
+    <div :class="{'d-none': mode !== 'preview'}">
       <slot name="preview"/>
     </div>
   </div>

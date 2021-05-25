@@ -69,9 +69,10 @@ GET http://localhost:18000/api/homepage?lang=zh
 Accept: application/json
 
 ###
-POST http://localhost:18000/api/bbs
+POST http://localhost:18001/api/bbs
 Accept: application/json
 Content-Type: application/json
+Cookie: secret=abcdefg
 
 {"content": "母亲节快乐", "issuer": "Neboer"}
 ###

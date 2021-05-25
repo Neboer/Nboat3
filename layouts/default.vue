@@ -81,14 +81,14 @@ export default {
           icon: ['fas', 'book-open']
         })
       }
-      if (['blog-blog_id-metaEditor', 'blog-blog_id-articleCreator', 'blog-blog_id-articleEditor'].includes(this.$nuxt.context.route.name)) {
+      if (['blog-blog_id-metaEditor', 'blog-blog_id-articleCreator', 'blog-blog_id-articleEditor'].includes(this.$nuxt.context.route.name) && this.$nuxt.context.store.state.admin) {
         ori_menu.push({
           name: '编辑文章',
           href: this.$nuxt.context.route,
           icon: ['fas', 'edit']
         })
       }
-      if (this.$nuxt.context.route.name === 'edit_homepage') {
+      if (this.$nuxt.context.route.name === 'edit_homepage' && this.$nuxt.context.store.state.admin) {
         ori_menu.push({
           name: '编辑主页',
           href: this.$nuxt.context.route,

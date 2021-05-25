@@ -17,7 +17,6 @@ export async function create_simple_blog (small_in) {
       create_time: new Date(),
       last_modified_time: new Date(),
       views: 0,
-      type: 0,
       comment: []
     }
   }
@@ -40,7 +39,6 @@ export async function create_big_blog (big_in) {
       create_time: new Date(),
       last_modified_time: new Date(),
       views: 0,
-      type: 1,
       comment: []
     }
   }
