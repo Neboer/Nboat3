@@ -1,5 +1,5 @@
 <template>
-  <div v-if="content !== null">
+  <div v-if="content">
     <img v-if="content.big_cover" :src="content.big_cover" alt="dummy" class="d-block m-auto mw-100">
     <toolbar v-if="$nuxt.context.store.state.admin" :blog_id="content._id" :article_index="article_index"
              :blog_type="content.blog_type" :blog_count="content.article.length"

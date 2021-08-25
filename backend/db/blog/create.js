@@ -72,5 +72,4 @@ export async function add_article_to_big_blog_by_id (blog_id, content) {
       last_modified_time: new Date()
     }
   })
-  console.log(result)
 }

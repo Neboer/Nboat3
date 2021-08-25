@@ -21,7 +21,7 @@ export default {
   },
   async fetch () {
     const blog_content = await blog_checker(this.$nuxt.context)
-    if (this.$nuxt.context.query.index) { // 大博文！
+    if (blog_content.blog_type) { // 大博文！
       this.text = blog_content.article.find(article => article.index === parseInt(this.$nuxt.context.query.index)).content
     } else {
       this.text = blog_content.article

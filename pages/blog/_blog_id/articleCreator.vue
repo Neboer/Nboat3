@@ -15,7 +15,7 @@ import { Marked } from '@ts-stack/markdown'
 
 export default {
   async middleware (ctx) {
-    let err_404 = () => ctx.error({
+    const err_404 = () => ctx.error({
       statusCode: 404,
       message: 'not exist'
     })
@@ -29,12 +29,10 @@ export default {
       err_404()
     } else {
       const blog_content = await ctx.$axios.$get('/blog/' + blog_id)
-      if (!blog_content || (!blog_content.blog_type)) {// 如果博客不是大博文，不能有这个修改。
+      if (!blog_content || (!blog_content.blog_type)) { // 如果博客不是大博文，不能有这个修改。
         err_404()
       } else if ((!blog_content.visible) && (!admin)) {
         err_404()
-      } else {
-        ctx.store.commit('set_blog', blog_content)
       }
     }
   },

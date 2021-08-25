@@ -8,6 +8,7 @@ export default async function (ctx) {
     })
   }
 
+  // init value
   const index = parseInt(ctx.query.index)
   const admin = ctx.store.state.admin
   const blog_id = ctx.route.params.blog_id
@@ -30,7 +31,21 @@ export default async function (ctx) {
     } else if ((!blog_content.visible) && (!admin)) {
       err_404()
     } else if (blog_content.blog_type && isNaN(index)) {
-      ctx.redirect(ctx.route.fullPath, { index: blog_content.article[0].index })
+      const route_table = {
+        'blog-blog_id-metaEditor': null,
+        'blog-blog_id-articleCreator': null,
+        'blog-blog_id-articleEditor': `/blog/${blog_id}/articleEditor?index=${blog_content.article[0].index}`,
+        'blog-blog_id': `/blog/${blog_id}?index=${blog_content.article[0].index}`
+      }
+      if (Object.keys(route_table).includes(ctx.route.name)) {
+        if (route_table[ctx.route.name]) {
+          await ctx.redirect(route_table[ctx.route.name])
+        } else {
+          return blog_content
+        }
+      } else {
+        err_404()
+      }
     } else {
       if (blog_content.blog_type) {
         // 对于大博文，查找用户所选的页码是否存在，以及如果页码存在，将博文内容传递下去。
@@ -41,6 +56,5 @@ export default async function (ctx) {
       }
       return blog_content
     }
-
   }
 }
