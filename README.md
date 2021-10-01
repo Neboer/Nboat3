@@ -1,6 +1,6 @@
 # Nboat3
 
-**N**eboer's **B**log isn't **O**nly **A**bout **T**echinque!
+**N**eboer's **B**log isn't **O**nly **A**bout **T**echnique!
 
 ## Neboer的博客
 
