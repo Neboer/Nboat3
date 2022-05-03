@@ -1,7 +1,9 @@
-import { MongoClient, ObjectID } from 'mongodb'
+import { MongoClient, ObjectID, ReadPreference } from 'mongodb'
 import config from 'config'
 // Connection URL
-const client = new MongoClient(config.get('addr.mongo'), { useUnifiedTopology: false })
+const client = new MongoClient(config.get('addr.mongo'), {
+  useUnifiedTopology: false
+})
 export const collections = {}
 
 // Database Name

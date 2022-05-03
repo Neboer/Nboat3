@@ -46,7 +46,7 @@ export default {
     Object.keys(this.meta).forEach(key => {
       this.meta[key] = blog_content[key]
     })
-    if (this.meta.blog_type) {
+    if (this.meta.blog_type === 1) {
       this.meta.article_count = blog_content.article.length
     }
     this.lock_blog_type = !!(this.meta.blog_type)

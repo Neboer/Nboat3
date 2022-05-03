@@ -34,7 +34,8 @@ export default {
   },
   methods: {
     async modify_current_content () {
-      if (this.$nuxt.context.query.index) {
+      // 这里曾经出过一个很大的bug：直接导致关于博客类型的判断错误。不要直接if(index)！会因为0的问题而判断错误！
+      if (!isNaN(this.$nuxt.context.query.index)) {
         await this.$axios.$put('/blog/' + this.$route.params.blog_id + '?index=' + this.$nuxt.context.query.index, {
           content: this.text,
           HTML: this.HTML

@@ -12,7 +12,7 @@ const app = express()
 
 init()
 
-app.use(json())
+app.use(json({ limit: '1000kb' }))
 app.use(cookieParser())
 
 app.get('/_seo', async (req, res) => {
@@ -29,8 +29,8 @@ app.use(homepage_router)
 app.use(bbs_router)
 
 app.use(function (err, req, res, next) {
-  console.error(err.details)
-  res.status(500).send('Something broke!')
+  console.error(err)
+  res.status(500).send(err)
 })
 
 export default app

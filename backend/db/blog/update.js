@@ -10,10 +10,9 @@ export async function upgrade_small_blog_to_big_blog_by_hex_id (small_blog_hex_i
   const new_article_array = [{
     content: small_blog_content.article,
     HTML: small_blog_content.HTML,
-    index: 0,
+    index: 1,
     create_time: small_blog_content.create_time,
-    last_modified_time: small_blog_content.last_modified_time,
-    comments: []
+    last_modified_time: small_blog_content.last_modified_time
   }]
   await collections.articles.findOneAndUpdate(by_id(small_blog_hex_id), {
     $set: {
@@ -21,9 +20,7 @@ export async function upgrade_small_blog_to_big_blog_by_hex_id (small_blog_hex_i
       blog_type: 1
     },
     $unset: {
-      content: '',
-      HTML: '',
-      comment: ''
+      HTML: ''
     }
   })
 }
